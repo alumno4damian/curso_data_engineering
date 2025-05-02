@@ -81,10 +81,21 @@ sources:
 
       - name: promos
         loaded_at_field: _fivetran_synced
+        description: >
+         Datos sobre las promociones que se aplican a los pedidos
         columns: 
           - name: promo_id
+            description: >
+             Descriptivo de la promoción aplicada
+            tests:
+            - unique
+            - not null
           - name: discount
+            description: >
+               Descuento en euros que se aplica en la promoción
           - name: status
+            description: >
+             Estado en el que se encuentra la promoción
           - name: _fivetran_deleted   
           - name: _fivetran_synced
 
