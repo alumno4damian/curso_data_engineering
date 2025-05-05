@@ -19,12 +19,27 @@ sources:
 
       - name: addresses
         loaded_at_field: _fivetran_synced
+        description: >
+          Detalles sobre las direcciones de los clientes y los pedidos
         columns:
           - name: address_id
+            description: >
+              Identificador de la direccion
+            tests:
+              - unique
+              - not_null
           - name: zipcode
+            description: >
+              Codigo postal de la direccion
           - name: country
+            description: >
+              País de la direccion
           - name: address
+            description: >
+              Direccion completa
           - name: state
+            description: >
+              Estado al que pertenece la direccion
           - name: _fivetran_deleted
           - name: _fivetran_synced
 

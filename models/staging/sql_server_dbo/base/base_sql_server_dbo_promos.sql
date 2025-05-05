@@ -7,12 +7,14 @@
 WITH src_promos AS (
     SELECT * 
     FROM {{ source('sql_server_dbo', 'promos') }}
+    UNION ALL
+    SELECT 'desconocida', 0, 'inactive', null, null
     ),
 
 base_promos AS (
     SELECT
-          generate_surrogate_key (promo_id)
-          promo_id as desc_promo,
+          {{dbt_utils.generate_surrogate_key(['promo_id'])}} as promo_id,
+          lower(promo_id) as desc_promo,
           discount as descuento_euros,
           status as estado,
           _fivetran_deleted,
@@ -21,3 +23,4 @@ base_promos AS (
     )
 
 SELECT * FROM base_promos
+
