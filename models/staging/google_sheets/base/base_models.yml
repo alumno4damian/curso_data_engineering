@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: budget
+    columns:
+      - name: budget_id
+        tests:
+        - unique
+        - not_null
+      - name: product_id
+      - name: fecha
+      - name: cantidad
+      - name: _fivetran_synced
+    

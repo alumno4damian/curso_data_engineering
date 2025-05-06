@@ -45,52 +45,120 @@ sources:
 
       - name: events
         loaded_at_field: _fivetran_synced
+        description: >
+          Tabla con cada uno de los eventos que realiza cada usuario en la web
         columns:
           - name: event_id
+            description: >
+              Identificador único del evento realizado
           - name: page_url
+            description: >
+              Página web en la que se produce el evento
           - name: event_type
+            description: >
+              Tipo de evento producido
           - name: user_id
+            description: >
+              Usuario que realiza el evento
           - name: product_id
+            description: >
+              Producto consultado durante el evento
           - name: session_id
+            description: >
+              Cada una de las entradas en la página web por parte de un usuario, engloba al conjunto de eventos realizados por un mismo usuario antes de abandonar la web
           - name: created_at
+            description: >
+              Fecha del evento
           - name: order_id
+            description: >
+              Identificador del pedido realizado
           - name: _fivetran_deleted
           - name: _fivetran_synced
       
       - name: orders
+        description: >
+          Datos sobre los pedidos realizados por usuarios
         loaded_at_field: _fivetran_synced
         columns:
+        - name: order_id
+          description: >
+            Identificador del pedido
         - name: shipping_service
+          description: > 
+            Empresa encargada del envío del pedido
         - name: shipping_cost
+          description: >
+            Coste del envío
         - name: address_id
+          description: >
+            Identificador de la dirección de envío
         - name: created_at
+          description: >
+            Fecha del pedido
         - name: promo_id
+          description: >
+            Identificador de la promoción del pedido
         - name: estimated_delivery_at
+          description: >
+            Fecha prevista de llegada del envío
         - name: order_cost
+          description: >
+            Coste del pedido
         - name: user_id
+          description: >
+            Identificador del usuario que realiza el pedido
         - name: order_total
+          description: >
+            Coste total del pedido
         - name: delivered_at
+          description: >
+            Fecha de envío
         - name: tracking_id
+          description: >
+            Identificador del seguimiento de pedido
         - name: status
+          description: >
+            Estado del pedido
         - name: _fivetran_deleted
         - name: _fivetran_synced
       
       - name: order_item
+        description: >
+          Relación entre el pedido realizado y los productos y cantidades pedidas.
         loaded_at_field: _fivetran_synced
         columns:
         - name: order_id
+          description: >
+            Identificador del pedido
         - name: product_id
+          description: >
+            Identificador del producto
         - name: quantity
+          description: >
+            Cantidad de producto solicitado en el pedido
         - name: _fivetran_deleted
         - name: _fivetran_synced  
 
       - name: products
         loaded_at_field: _fivetran_synced
+        description: >
+          Datos sobre los productos que se ordenan
         columns: 
           - name: product_id
+            tests:
+              - unique
+              - not_null
+            description: >
+              Identificador del producto
           - name: price
-          - name: name
+            description: >
+              Precio del producto
+          - name: name 
+            description: >
+              Nombre del producto
           - name: inventory
+            description: >
+              Inventario disponible del producto
           - name: _fivetran_deleted
           - name: _fivetran_synced  
 
@@ -117,16 +185,39 @@ sources:
       
       - name: users
         loaded_at_field: _fivetran_synced
+        description: >
+          Datos sobre los usuarios que realizan eventos en la web
         columns:
           - name: user_id
+            tests:
+              - unique
+              - not_null
+            description: >
+              Identificador único de usuario
           - name: update_at
+            description: >
+              Fecha de actualización del usuario
           - name: address_id
+            description: >
+              Dirección en la que vive el usuario
           - name: last_name
+            description: >
+              Apellido del usuario
           - name: created_at
+            description: >
+              Fecha de creación del usuario
           - name: phone_number
+            description: >
+              Número de teléfono del usuario
           - name: total_orders
+            description: >
+              Total de pedidos del usuario
           - name: first_name
+            description: >
+              Nombre del usuario
           - name: email
+            description: >
+              Correo eléctronico del usuario
           - name: _fivetran_deleted   
           - name: _fivetran_synced
 

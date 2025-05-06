@@ -18,10 +18,27 @@ sources:
     tables:
 
       - name: budget
+        description: >
+          Datos sobre el objetivo de productos vendidos en cada mes
         loaded_at_field: _fivetran_synced
         columns:
           - name: _row
-          - name: product_id
+            tests:
+            - unique
+            - not_null
+            description: >
+              Contiene el número de la fila de excel 
           - name: quantity
+            description: >
+              Cantidad de productos vendidos en unidades
+            tests:
+              - not_null
+          - name: product_id
+            tests:
+            - not_null
+            description: >
+              Identificador del producto
           - name: month
+            description: >
+              Campo de fecha
           - name: _fivetran_synced
