@@ -18,7 +18,7 @@ base_promos AS (
           discount as descuento_euros,
           status as estado,
           _fivetran_deleted,
-          _fivetran_synced
+           CONVERT_TIMEZONE('UTC',_fivetran_synced) as _fivetran_synced
     FROM src_promos
     )
 

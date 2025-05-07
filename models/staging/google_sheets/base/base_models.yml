@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: budget
+  - name: base_google_sheets_budget
     columns:
       - name: budget_id
         tests:
