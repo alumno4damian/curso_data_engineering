@@ -13,7 +13,7 @@ WITH src_orders AS (
 base_orders AS (
     SELECT
           {{dbt_utils.generate_surrogate_key(['order_id'])}} as order_id,
-          case when shipping_service='' then 'ninguna' else  shipping_service end as empresa_envio,
+          case when shipping_service='' then 'ninguna' else  shipping_service end as shipping_service,
           shipping_cost as coste_envio,
           CONVERT_TIMEZONE('UTC',created_at) as fecha_creacion,
           {{dbt_utils.generate_surrogate_key(['promo_id2'])}} as promo_id,
