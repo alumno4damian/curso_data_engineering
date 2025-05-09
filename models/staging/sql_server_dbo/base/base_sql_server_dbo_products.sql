@@ -12,9 +12,9 @@ WITH src_products AS (
 base_products AS (
     SELECT
           {{dbt_utils.generate_surrogate_key(['product_id'])}} as product_id,
-          price as precio,
+          cast(price as float) as precio,
           name as desc_producto,
-          inventory as inventario,
+          cast(inventory as int) as inventario,
           _fivetran_deleted,
           CONVERT_TIMEZONE('UTC',_fivetran_synced) as _fivetran_synced
     FROM src_products

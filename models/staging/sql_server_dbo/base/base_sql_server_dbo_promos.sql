@@ -15,7 +15,7 @@ base_promos AS (
     SELECT
           {{dbt_utils.generate_surrogate_key(['promo_id'])}} as promo_id,
           lower(promo_id) as desc_promo,
-          discount as descuento_euros,
+          cast(discount as float) as descuento_euros,
           status as estado,
           _fivetran_deleted,
            CONVERT_TIMEZONE('UTC',_fivetran_synced) as _fivetran_synced
