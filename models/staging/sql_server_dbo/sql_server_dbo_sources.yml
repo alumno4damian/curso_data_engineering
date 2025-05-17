@@ -1,4 +1,4 @@
--version: 2
+version: 2
 
 sources:
 
@@ -122,7 +122,7 @@ sources:
         - name: _fivetran_deleted
         - name: _fivetran_synced
       
-      - name: order_item
+      - name: order_items
         description: >
           Relación entre el pedido realizado y los productos y cantidades pedidas.
         loaded_at_field: _fivetran_synced

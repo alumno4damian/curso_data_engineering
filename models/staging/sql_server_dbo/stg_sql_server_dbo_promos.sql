@@ -1,22 +1,22 @@
 {{
   config(
-    materialized='table'
+    materialized='view'
   )
 }}
 
 WITH src_promos AS (
-    SELECT *
+    SELECT * 
     FROM {{ ref('base_sql_server_dbo_promos') }}
     ),
 
 stg_promos AS (
     SELECT
     promo_id,
-    desc_promo,
-    descuento_euros,
-    estado
-FROM src_promos
-    )
-
-SELECT * FROM stg_products
-order by desc_promos
+    promo_desc,
+    status,
+    _fivetran_deleted,
+    _fivetran_synced
+    FROM src_promos
+)
+    
+SELECT * FROM stg_promos

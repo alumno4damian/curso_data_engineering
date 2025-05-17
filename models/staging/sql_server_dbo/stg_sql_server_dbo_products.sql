@@ -1,21 +1,22 @@
 {{
   config(
-    materialized='table'
+    materialized='view'
   )
 }}
 
-WITH src_product AS (
-    SELECT *
+WITH src_prod AS (
+    SELECT * 
     FROM {{ ref('base_sql_server_dbo_products') }}
     ),
 
-stg_products AS (
+stg_prod AS (
     SELECT
     product_id,
-    desc_producto,
-    inventario
-FROM src_product
-    )
-
-SELECT * FROM stg_products
-order by desc_producto
+    name,
+    status,
+    _fivetran_deleted,
+    _fivetran_synced
+    FROM src_prod
+)
+    
+SELECT * FROM stg_prod
