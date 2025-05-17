@@ -5,7 +5,7 @@
 }}
 
 WITH src_state AS (
-    SELECT * 
+    SELECT distinct state
     FROM {{ ref('base_sql_server_dbo_addresses') }}
     ),
 
@@ -17,3 +17,4 @@ stg_st AS (
 )
     
 SELECT * FROM stg_st
+order by state

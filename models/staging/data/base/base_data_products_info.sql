@@ -14,7 +14,7 @@ base_prod AS (
         cast(name as varchar) name,
         cast(class as varchar) class,
         cast(flower as BOOLEAN) flower,
-        cast(indoor_outdoor as varchar) indoor_outdoor,
+        cast(case when indoor_outdoor='Indoor' then TRUE else FALSE end as BOOLEAN) as indoor ,
         cast(care_difficult as varchar) care_difficult,
         cast(size as varchar) size,
         cast(image_url as varchar) image_url
