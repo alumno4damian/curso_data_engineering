@@ -15,6 +15,7 @@ base_orders AS (
           {{dbt_utils.generate_surrogate_key(['order_id'])}} as order_id,
           case when shipping_service='' then 'ninguna' else  shipping_service end as shipping_service,
           cast(shipping_cost as float) as shipping_cost,
+          {{dbt_utils.generate_surrogate_key(['address_id'])}} as address_id,
           CONVERT_TIMEZONE('UTC',created_at) as created_at,
           {{dbt_utils.generate_surrogate_key(['promo_id2'])}} as promo_id,
           CONVERT_TIMEZONE('UTC',estimated_delivery_at) as estimated_delivery_at,

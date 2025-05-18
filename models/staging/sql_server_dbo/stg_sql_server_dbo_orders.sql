@@ -17,6 +17,7 @@ stg_orders AS (
     order_id, 
     {{dbt_utils.generate_surrogate_key(['shipping_service'])}} as shipping_service_id,
     shipping_cost,
+    address_id,
     created_at,
     sp.promo_id,
     sp.discount_euros,
