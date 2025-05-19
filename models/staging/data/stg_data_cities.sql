@@ -18,8 +18,7 @@ stg_cities AS (
     city,
     population,
     density,
-    {{dbt_utils.generate_surrogate_key(['state'])}} as state_id,
-    country
+    {{dbt_utils.generate_surrogate_key(['state'])}} as state_id
     FROM src_cities sc 
     LEFT JOIN src_add sa ON sc.zipcode=sa.zipcode
     )
