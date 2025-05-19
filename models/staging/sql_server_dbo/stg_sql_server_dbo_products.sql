@@ -22,6 +22,7 @@ stg_prod AS (
     indoor,
     care_difficult,
     size,
+    image_url,
     _fivetran_deleted,
     _fivetran_synced
     FROM src_prod sp 
