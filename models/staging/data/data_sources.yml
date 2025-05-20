@@ -1,0 +1,102 @@
+version: 2
+
+sources:
+
+  - name: data # name of the source 
+    schema: data # this is the schema our raw data lives in
+    database:  "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # this is the name of our database
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    tables:
+
+      - name: cities
+        description: >
+          Detalles sobre las ciudades de américa
+        columns:
+          - name: city
+            description: >
+              Nombre de la ciudad
+            tests:
+              - not_null
+          - name: zipcode
+            description: >
+              Codigo postal de la ciudad
+            tests:
+              - unique
+          - name: population
+            description: >
+              Número de habitantes de la ciudad
+            tests:
+              - not_null
+          - name: density
+            description: >
+              Densidad de población de la ciudad
+            tests:
+              - not_null
+
+      - name: products_info
+        description: >
+          Tabla con información adicional sobre los productos
+        columns:
+          - name: name
+            description: >
+              Nombre del producto
+            tests:
+              - not_null
+              - unique
+          - name: class
+            description: >
+              Clasificación de la especie
+            tests:
+              - not_null
+          - name: flower
+            description: >
+              Tenencia o no de flor
+            tests:
+              - not_null
+          - name: indoor_outdoor
+            description: >
+              Cada una de las entradas en la página web por parte de un usuario, engloba al conjunto de eventos realizados por un mismo usuario antes de abandonar la web
+            tests:
+              - not_null
+          - name: care_difficult
+            description: >
+              Dificultad de cuidado de la planta
+            tests:
+              - not_null
+          - name: size
+            description: >
+              Tamaño de la planta
+            tests:
+              - not_null
+          - name: image_url
+            description: >
+              URL con la imgen del producto
+            tests:
+              - not_null
+      
+      - name: users_info
+        description: >
+          Información adicional de los usuarios que hacen pedidosç
+        columns:
+          - name: user_id
+            description: >
+              Identificador del usuario
+            tests:
+              - not_null
+              - unique
+          - name: sex
+            description: >
+              Sexo del usuario
+            tests:
+              - not_null
+          - name: birthdate
+            description: >
+              Fecha de nacimiento del usuario
+          - name: pet
+            description: >
+              Tenencia o no de mascota
