@@ -11,14 +11,10 @@ sources:
       schema: false
       identifier: false
 
-    freshness:
-      warn_after: {count: 24, period: hour}
-      error_after: {count: 1000, period: day}
 
     tables:
 
       - name: addresses
-        loaded_at_field: _fivetran_synced
         description: >
           Detalles sobre las direcciones de los clientes y los pedidos
         columns:
@@ -44,11 +40,13 @@ sources:
           - name: _fivetran_synced
 
       - name: events
-        loaded_at_field: _fivetran_synced
         description: >
           Tabla con cada uno de los eventos que realiza cada usuario en la web
         columns:
           - name: event_id
+            tests:
+              - not_null
+              - unique
             description: >
               Identificador único del evento realizado
           - name: page_url
@@ -58,12 +56,16 @@ sources:
             description: >
               Tipo de evento producido
           - name: user_id
+            tests:
+              - not_null
             description: >
               Usuario que realiza el evento
           - name: product_id
             description: >
               Producto consultado durante el evento
           - name: session_id
+            tests:
+              - not_null
             description: >
               Cada una de las entradas en la página web por parte de un usuario, engloba al conjunto de eventos realizados por un mismo usuario antes de abandonar la web
           - name: created_at
@@ -78,9 +80,11 @@ sources:
       - name: orders
         description: >
           Datos sobre los pedidos realizados por usuarios
-        loaded_at_field: _fivetran_synced
         columns:
         - name: order_id
+          tests:
+            - not_null
+            - unique
           description: >
             Identificador del pedido
         - name: shipping_service
@@ -125,22 +129,26 @@ sources:
       - name: order_items
         description: >
           Relación entre el pedido realizado y los productos y cantidades pedidas.
-        loaded_at_field: _fivetran_synced
         columns:
         - name: order_id
+          tests:
+            - not_null
           description: >
             Identificador del pedido
         - name: product_id
+          tests:
+            - not_null
           description: >
             Identificador del producto
         - name: quantity
+          tests:
+          - not_null
           description: >
             Cantidad de producto solicitado en el pedido
         - name: _fivetran_deleted
         - name: _fivetran_synced  
 
       - name: products
-        loaded_at_field: _fivetran_synced
         description: >
           Datos sobre los productos que se ordenan
         columns: 
@@ -163,7 +171,6 @@ sources:
           - name: _fivetran_synced  
 
       - name: promos
-        loaded_at_field: _fivetran_synced
         description: >
          Datos sobre las promociones que se aplican a los pedidos
         columns: 
@@ -184,7 +191,6 @@ sources:
 
       
       - name: users
-        loaded_at_field: _fivetran_synced
         description: >
           Datos sobre los usuarios que realizan eventos en la web
         columns:
