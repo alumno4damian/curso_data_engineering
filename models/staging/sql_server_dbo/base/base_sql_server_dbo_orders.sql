@@ -1,6 +1,7 @@
 {{
   config(
-    materialized='view'
+    materialized='incremental',
+    unique_key = 'order_id'
   )
 }}
 
@@ -30,4 +31,11 @@ base_orders AS (
     FROM src_orders
     )
 
-SELECT * FROM base_orders
+SELECT *
+FROM 
+base_orders
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}

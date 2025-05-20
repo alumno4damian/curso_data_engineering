@@ -1,6 +1,7 @@
 {{
   config(
-    materialized='view'
+    materialized='incremental',
+    unique_key='event_id'
   )
 }}
 
@@ -29,3 +30,8 @@ events AS (
     FROM src_events
     )
 SELECT * FROM events
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}
