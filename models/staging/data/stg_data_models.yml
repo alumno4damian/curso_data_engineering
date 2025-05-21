@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: stg_cities
+    description: "Modelo staging de ciudades con join a direcciones"
+    columns:
+      - name: city_id
+        tests:
+          - not_null
+          - unique
+      - name: city
+        description: "Nombre de la ciudad"
+        tests:
+          - not_null
+      - name: population
+        description: "Población de la ciudad"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+          - not_null
+      - name: density
+        description: "Densidad de la ciudad"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+          - not_null
+      - name: state_id
+        tests:
+          - not_null:
+              config:
+                severity: warn
+          - relationships:
+              to: ref('stg_sql_server_dbo_state')
+              field: state_id
+
+  - name: stg_class
+    description: "Modelo staging para clases de productos"
+    columns:
+      - name: class_id
+        tests:
+          - not_null
+          - unique
+      - name: class
+        description: "Nombre de la clase de producto"
+        tests:
+          - not_null:
+              config:
+                severity: warn
+          - unique:
+              config:
+                severity: warn

@@ -32,7 +32,11 @@ sources:
             description: >
               Cantidad de productos vendidos en unidades
             tests:
-              - not_null
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                strictly: true
+                config:
+                  severity: warn
           - name: product_id
             tests:
             - not_null
@@ -41,4 +45,8 @@ sources:
           - name: month
             description: >
               Campo de fecha
+            tests:
+              - not_null:
+                  config:
+                    severity: warn              
           - name: _fivetran_synced

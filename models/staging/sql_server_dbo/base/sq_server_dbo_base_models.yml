@@ -1,0 +1,180 @@
+version: 2
+
+models:
+
+  - name: base_sql_server_dbo_addresses
+    columns:
+      - name: address_id
+        tests:
+          - unique
+          - not_null
+      - name: zipcode
+      - name: country
+      - name: address
+      - name: state
+      - name: _fivetran_deleted
+      - name: _fivetran_synced
+
+  - name: base_sql_server_dbo_order_items
+    columns:
+      - name: order_item_id
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('base_sql_server_dbo_orders')
+              field: order_id
+              config:
+                severity: warn
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('base_sql_server_dbo_products')
+              field: product_id
+              config:
+                severity: warn
+      - name: quantity
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              strictly: true
+              config:
+                severity: warn
+      - name: _fivetran_deleted
+      - name: _fivetran_synced
+
+  - name: base_sql_server_dbo_orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: shipping_service
+      - name: shipping_cost
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+      - name: address_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('base_sql_server_dbo_addresses')
+              field: address_id
+              config:
+                severity: warn
+      - name: created_at
+      - name: promo_id
+        tests:
+          - relationships:
+              to: ref('base_sql_server_dbo_promos')
+              field: promo_id
+              config:
+                severity: warn
+      - name: estimated_delivery_at
+      - name: order_cost
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('base_sql_server_dbo_users')
+              field: user_id
+              config:
+                severity: warn
+      - name: order_total
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+      - name: delivered_at
+      - name: tracking_id
+      - name: status
+      - name: _fivetran_deleted
+      - name: _fivetran_synced
+
+  - name: base_sql_server_dbo_products
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: price
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+      - name: name
+        tests:
+          - not_null
+      - name: inventory
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+      - name: _fivetran_deleted
+      - name: _fivetran_synced
+
+  - name: base_sql_server_dbo_promos
+    columns:
+      - name: promo_id
+        tests:
+          - unique
+          - not_null
+      - name: promo_desc
+      - name: discount_euros
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+      - name: status
+      - name: _fivetran_deleted
+      - name: _fivetran_synced
+
+  - name: base_sql_server_dbo_users
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+      - name: last_name
+      - name: updated_at
+      - name: created_at
+      - name: address_id
+        tests:
+        - relationships:
+            to: ref('base_sql_server_dbo_addresses')
+            field: address_id
+            config:
+              severity: warn
+      - name: phone_number
+      - name: email
+        tests:
+          - correo_valido:
+              column_name: email
+              config:
+                severity: warn
+      - name: _fivetran_deleted
+      - name: _fivetran_synced
+
+

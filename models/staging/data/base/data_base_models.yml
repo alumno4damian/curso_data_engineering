@@ -1,0 +1,118 @@
+version: 2
+
+models:
+  - name: base_data_cities
+    description: "Información de ciudades"
+    columns:
+      - name: zipcode
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('base_sql_server_dbo_addresses')
+              field: zipcode
+              config:
+                severity: warn
+      - name: city
+        tests:
+          - not_null
+      - name: population
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+          - not_null
+      - name: density
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+          - not_null
+
+  - name: base_data_products_info
+    description: "Información de productos"
+    columns:
+      - name: name
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('base_sql_server_dbo_products')
+              field: name
+              config:
+                severity: warn
+      - name: class
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: flower
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: indoor
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+              config:
+                severity: warn
+      - name: care_difficult
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Low', 'High', 'Medium']
+              config:
+                severity: warn
+      - name: size
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Big', 'Small', 'Medium']
+              config:
+                severity: warn
+      - name: image_url
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+  - name: base_data_users_info
+    description: "Información de usuarios"
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('base_sql_server_dbo_users')
+              field: user_id
+              config:
+                severity: warn
+      - name: sex
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['H', 'M']
+              config:
+                severity: warn
+      - name: birthdate
+        tests:
+          - not_null
+          - edad_valida:
+              args:
+                column_date: birthdate
+                min_age: 18
+                max_age: 99
+              config:
+                severity: warn
+      - name: pet
+        tests:
+          - not_null:
+              config:
+                severity: warn

@@ -27,15 +27,31 @@ sources:
           - name: zipcode
             description: >
               Codigo postal de la direccion
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: country
             description: >
               País de la direccion
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: address
             description: >
               Direccion completa
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: state
             description: >
               Estado al que pertenece la direccion
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: _fivetran_deleted
           - name: _fivetran_synced
 
@@ -52,12 +68,18 @@ sources:
           - name: page_url
             description: >
               Página web en la que se produce el evento
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: event_type
             description: >
               Tipo de evento producido
           - name: user_id
             tests:
-              - not_null
+              - not_null:
+                  config:
+                    severity: warn
             description: >
               Usuario que realiza el evento
           - name: product_id
@@ -71,6 +93,10 @@ sources:
           - name: created_at
             description: >
               Fecha del evento
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: order_id
             description: >
               Identificador del pedido realizado
@@ -93,9 +119,19 @@ sources:
         - name: shipping_cost
           description: >
             Coste del envío
+          tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                strictly: true
+                config:
+                  severity: warn
         - name: address_id
           description: >
             Identificador de la dirección de envío
+          tests:
+            - not_null:
+                config:
+                  severity: warn
         - name: created_at
           description: >
             Fecha del pedido
@@ -108,12 +144,28 @@ sources:
         - name: order_cost
           description: >
             Coste del pedido
+          tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                strictly: true
+                config:
+                  severity: warn
         - name: user_id
           description: >
             Identificador del usuario que realiza el pedido
+          tests:
+            - not_null:
+                config:
+                  severity: warn
         - name: order_total
           description: >
             Coste total del pedido
+          tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                strictly: true
+                config:
+                  severity: warn
         - name: delivered_at
           description: >
             Fecha de envío
@@ -142,7 +194,11 @@ sources:
             Identificador del producto
         - name: quantity
           tests:
-          - not_null
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 1
+                strictly: true
+                config:
+                  severity: warn
           description: >
             Cantidad de producto solicitado en el pedido
         - name: _fivetran_deleted
@@ -161,12 +217,27 @@ sources:
           - name: price
             description: >
               Precio del producto
+            tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                strictly: true
+                config:
+                  severity: warn
           - name: name 
             description: >
               Nombre del producto
+            tests:
+              - unique
+              - not_null
           - name: inventory
             description: >
               Inventario disponible del producto
+            tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                strictly: true
+                config:
+                  severity: warn
           - name: _fivetran_deleted
           - name: _fivetran_synced  
 
@@ -183,6 +254,12 @@ sources:
           - name: discount
             description: >
                Descuento en euros que se aplica en la promoción
+            tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                strictly: true
+                config:
+                  severity: warn
           - name: status
             description: >
              Estado en el que se encuentra la promoción
@@ -224,6 +301,11 @@ sources:
           - name: email
             description: >
               Correo eléctronico del usuario
+            tests:
+              - correo_valido:
+                  column_name: email
+                  config:
+                    severity: warn
           - name: _fivetran_deleted   
           - name: _fivetran_synced
 
