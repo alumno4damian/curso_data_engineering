@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: base_budget
+    columns:
+      - name: budget_id
+        tests:
+          - not_null
+          - unique
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sql_server_dbo_products')
+              field: product_id
+      - name: date
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: quantity
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
+              config:
+                severity: warn
+      - name: _fivetran_synced

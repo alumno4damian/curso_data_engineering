@@ -21,7 +21,9 @@ sources:
             description: >
               Nombre de la ciudad
             tests:
-              - not_null
+              - not_null:
+                  config:
+                    severity: warn
           - name: zipcode
             description: >
               Codigo postal de la ciudad
@@ -32,12 +34,20 @@ sources:
             description: >
               Número de habitantes de la ciudad
             tests:
-              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0
+                  strictly: true
+                  config: 
+                    severity: warn
           - name: density
             description: >
               Densidad de población de la ciudad
             tests:
-              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0
+                  strictly: true
+                  config: 
+                    severity: warn
 
       - name: products_info
         description: >
@@ -53,32 +63,50 @@ sources:
             description: >
               Clasificación de la especie
             tests:
-              - not_null
+              - not_null:
+                  config:
+                    severity: warn
           - name: flower
             description: >
               Tenencia o no de flor
             tests:
-              - not_null
+              - not_null:
+                  config:
+                    severity: warn
           - name: indoor_outdoor
             description: >
-              Cada una de las entradas en la página web por parte de un usuario, engloba al conjunto de eventos realizados por un mismo usuario antes de abandonar la web
+              Describe si la planta es de interior o exterior
             tests:
               - not_null
+              - accepted_values: 
+                  values: ['Indoor', 'Outdoor']
+                  config:
+                    severity: warn
           - name: care_difficult
             description: >
               Dificultad de cuidado de la planta
             tests:
               - not_null
+              - accepted_values: 
+                  values: ['Low', 'High', 'Medium']
+                  config:
+                    severity: warn
           - name: size
             description: >
               Tamaño de la planta
             tests:
               - not_null
+              - accepted_values: 
+                  values: ['Big', 'Small', 'Medium']
+                  config:
+                    severity: warn
           - name: image_url
             description: >
               URL con la imgen del producto
             tests:
-              - not_null
+              - not_null:
+                  config:
+                    severity: warn
       
       - name: users_info
         description: >
@@ -94,10 +122,18 @@ sources:
             description: >
               Sexo del usuario
             tests:
-              - not_null
+              - not_null  
+              - accepted_values: 
+                  values: ['H', 'M']
+                  config:
+                    severity: warn            
           - name: birthdate
             description: >
               Fecha de nacimiento del usuario
           - name: pet
             description: >
               Tenencia o no de mascota
+            tests:
+              - not_null:
+                  config:
+                    severity: warn

@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: dim_event_type
+    columns:
+      - name: event_type_id
+        tests:
+          - unique
+          - not_null
+      - name: event_type
+        tests:
+          - unique
+      - name: n_events
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
+
+
+  - name: dim_session
+    columns:
+      - name:  session_id
+        tests:
+          - unique
+          - not_null
+      - name:  n_event
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
+      - name:  session_start
+      - name:  session_end
+      - name:  session_duration_min
+      - name:  user_id
+        tests:
+        - relationships:
+            to: ref('dim_user')
+            field: user_id
+            config:
+              severity: warn
+      - name:  n_product_view
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
+      - name:  session_with_order      
+
+  - name: fact_events
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: page_url
+      - name: event_type_id
+        tests:
+          - relationships:
+              to: ref('dim_event_type')
+              field: event_type_id
+              config:
+                severity: warn
+      - name: producto_id
+      - name: session_id
+        tests:
+          - relationships:
+              to: ref('dim_session')
+              field: session_id
+              config:
+                severity: warn
+      - name: created_at
+      - name: order_id
+
+
