@@ -27,6 +27,7 @@ sources:
               Codigo postal de la ciudad
             tests:
               - unique
+              - not_null
           - name: population
             description: >
               Número de habitantes de la ciudad
