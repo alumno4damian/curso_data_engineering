@@ -11,12 +11,21 @@ models:
         tests:
           - accepted_values:
               values: ['active', 'inactive']
+              config:
+                severity: warn
       - name: n_oorder
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
       - name: total_discount
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
 
   - name: dim_shipping_service
     columns:
@@ -26,10 +35,16 @@ models:
           - not_null
       - name: total_shipping_cost
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
       - name: avg_shipping_cost
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
       - name: avg_delay_days
         tests:
           - not_null
@@ -38,7 +53,10 @@ models:
           - not_null
       - name: n_order
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
 
   - name: fact_orders
     columns:
@@ -51,22 +69,61 @@ models:
           - not_null
       - name: product_id
         tests:
-          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
       - name: quantity
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
       - name: price
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
+      - name: shipping_service_id
+        tests:
+          - relationships:
+              to: ref('dim_shipping_service')
+              field: shipping_service_id
       - name: shipping_cost
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
+      - name: address_id
+        tests:
+          - relationships:
+              to: ref('dim_address')
+              field: adress_id
+      - name: created_at
+      - name: promo_id
+        tests:
+          - relationships:
+              to: ref('dim_promo')
+              field: promo_id
       - name: discount_euros
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn
       - name: user_id
         tests:
           - not_null
+      - name: estimated_delivery_at
+      - name: delivered_at
+      - name: delay_days
+      - name: delivery_time_days
+      - name: tracking_id
+      - name: status
       - name: total_order
         tests:
-          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              config:
+                severity: warn

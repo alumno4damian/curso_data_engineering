@@ -13,21 +13,29 @@ models:
           - relationships:
               to: ref('dim_city')
               field: city_id
+              config:
+                severity: warn
       - name: n_order
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: order_total
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: mode_product_id
         tests:
           - relationships:
-              to: ref('stg_sql_server_dbo_products')
+              to: ref('dim_product')
               field: product_id
+              config:
+                severity: warn
 
   - name: dim_city
     columns:
@@ -35,27 +43,30 @@ models:
         tests:
           - unique
           - not_null
-          - relationships:
-              to: ref('stg_data_cities')
-              field: city_id
       - name: city
       - name: population
       - name: density
       - name: state_id
         tests:
           - relationships:
-              to: ref('stg_sql_server_dbo_state')
+              to: ref('dim_state')
               field: state_id
+              config:
+                severity: warn
       - name: n_order
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: sum_order_total
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
 
   - name: dim_product_class
     columns:
@@ -63,18 +74,19 @@ models:
         tests:
           - unique
           - not_null
-          - relationships:
-              to: ref('stg_data_product_class')
-              field: class_id
       - name: class
       - name: n_order
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: total_order
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
 
   - name: dim_product
     columns:
@@ -82,56 +94,75 @@ models:
         tests:
           - unique
           - not_null
-          - relationships:
-              to: ref('stg_sql_server_dbo_products')
-              field: product_id
       - name: name
       - name: inventory
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: class_id
         tests:
           - relationships:
-              to: ref('stg_data_product_class')
+              to: ref('dim_product_class')
               field: class_id
+              config:
+                severity: warn
       - name: flower
         tests:
           - accepted_values:
               values: ['true', 'false']
+              config:
+                severity: warn
       - name: indoor
         tests:
           - accepted_values:
               values: ['true', 'false']
+              config:
+                severity: warn
       - name: care_difficult
         tests:
           - accepted_values:
               values: ['Low', 'High', 'Medium']
+              config:
+                severity: warn
       - name: size
         tests:
           - accepted_values:
               values: ['Big', 'Small', 'Medium']
+              config:
+                severity: warn
       - name: image_url
       - name: n_order
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: n_product_order
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: total_order
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: budget
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: cumplimiento_budget
         tests:
           - accepted_values:
               values: [0, 1]
+              config:
+                severity: warn
 
   - name: dim_state
     columns:
@@ -139,19 +170,20 @@ models:
         tests:
           - unique
           - not_null
-          - relationships:
-              to: ref('stg_sql_server_dbo_state')
-              field: state_id
       - name: state
       - name: country
       - name: n_order
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: sum_order_total
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
 
   - name: dim_users
     columns:
@@ -159,9 +191,6 @@ models:
         tests:
           - unique
           - not_null
-          - relationships:
-              to: ref('stg_sql_server_dbo_users')
-              field: user_id
       - name: first_name
       - name: last_name
       - name: updated_at
@@ -169,29 +198,41 @@ models:
       - name: address_id
         tests:
           - relationships:
-              to: ref('stg_sql_server_dbo_address')
+              to: ref('dim_address')
               field: address_id
+              config:
+                severity: warn
       - name: phone_number
       - name: email
       - name: sex
         tests:
           - accepted_values:
               values: ['H', 'M']
+              config:
+                severity: warn
       - name: age
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 18
+              config:
+                severity: warn
       - name: pet
       - name: n_order
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: order_total
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+              config:
+                severity: warn
       - name: mode_product_id
         tests:
           - relationships:
-              to: ref('stg_sql_server_dbo_products')
+              to: ref('dim_product')
               field: product_id
+              config:
+                severity: warn

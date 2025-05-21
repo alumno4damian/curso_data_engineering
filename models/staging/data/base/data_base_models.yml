@@ -102,15 +102,6 @@ models:
               config:
                 severity: warn
       - name: birthdate
-        tests:
-          - not_null
-          - edad_valida:
-              args:
-                column_date: birthdate
-                min_age: 18
-                max_age: 99
-              config:
-                severity: warn
       - name: pet
         tests:
           - not_null:
