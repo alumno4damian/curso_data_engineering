@@ -1,4 +1,4 @@
-{% test edad_valida(model, fecha, edad_min, edad_max) %}
+{% test edad_valida(model, column_name, edad_min, edad_max) %}
 
 SELECT *
 FROM {{ model }}
