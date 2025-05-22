@@ -130,6 +130,11 @@ sources:
           - name: birthdate
             description: >
               Fecha de nacimiento del usuario
+            tests:
+              - edad_valida:
+                  column_name: birthdate
+                  edad_min: 18
+                  edad_max: 99
           - name: pet
             description: >
               Tenencia o no de mascota
